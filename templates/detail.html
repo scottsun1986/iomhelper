@@ -1,0 +1,169 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block title %}IOM helper{% endblock %}
+{% block styles %}
+    <link href="{{ url_for('static',filename='css/bootstrap.min.css') }}" rel="stylesheet">
+{% endblock %}
+{% block scripts %}
+    <script src="{{url_for('static',filename='js/jquery.min.js') }}"></script>
+    <script src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
+{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+        <div class=page-header">
+             <h1>服务开通系统查询助手</h1>
+
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">定单信息</div>
+            <div class="panel-body">
+                <!--lid id,定单编码 njc201508181552441871278，
+                专线号 saccNbr,主题 sorderTitle、
+                受理时间 dacceptDate，
+                要求业务开通时间 dlimitDate、
+                受理人 sacceptStaff，
+                需求描述 sslaContent【另外一个请求，在下面】、
+                备注 scomments
+                -->
+                <table class="table table-striped">
+                    <tr>
+                        <td>定单编码：</td>
+                        <td>{{ returned.sordercode.text }}</td>
+                        <td>专线号：</td>
+                        <td>{{ returned.saccnbr.text }}</td>
+                        <td>主题：</td>
+                        <td>{{ returned.sordertitle.text }}</td>
+                    </tr>
+                    <tr>
+                        <td>受理时间：</td>
+                        <td>{{ returned.dacceptdate.text }}</td>
+                        <td>要求业务开通时间：</td>
+                        <td>{{ returned.dlimitdate.text }}</td>
+                        <td>受理人：</td>
+                        <td>{{ returned.sacceptstaff.text }}</td>
+                    </tr>
+                    <tr>
+                        <td>需求描述：</td>
+                        <td colspan="3">{{ returned5.sslacontent.text }}</td>
+
+
+                        <td>备注：</td>
+                        <td>{{ returned.scomments.text }}</td>
+                    </tr>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">业务属性</div>
+            <div class="panel-body">
+                <!-- A端长途类型 saCtType、A端数字电路速率 saDigEleRate、A端数字电路接口类型 saDigElePortType、Z端长途类型 szCtType、z端数字电路速率 szDigEleRate、z端数字电路接口类型 szDigElePortType-->
+
+                <table class="table table-striped">
+                    <tr>
+                        <td>A端长途类型：</td>
+                        <td>{{ returned4.sacttype.text }}</td>
+                        <td>A端数字电路速率：</td>
+                        <td>{{ returned4.sadigelerate.text }}</td>
+                        <td>A端数字电路接口类型：</td>
+                        <td>{{ returned4.sadigeleporttype.text }}</td>
+                    </tr>
+                    <tr>
+                        <td>Z端长途类型：</td>
+                        <td>{{ returned4.szcttype.text }}</td>
+                        <td>z端数字电路速率：</td>
+                        <td>{{ returned4.szdigelerate.text }}</td>
+                        <td>z端数字电路接口类型：</td>
+                        <td>{{ returned4.szdigeleporttype.text }}</td>
+                    </tr>
+                </table>
+
+
+            </div>
+
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">工单列表</div>
+            <div class="panel-body">
+
+                <table class="table table-striped table-bordered table-condensed table-responsive">
+                    <thead>
+                    <tr class="row mx-0" >
+                        <td class="col-md-1">工单编码</td>
+                        <td class="col-md-1">处理环节</td>
+                        <td class="col-md-3">工单处理结果</td>
+                        <td class="col-md-1">收单人</td>
+                        <td class="col-md-1">回单人</td>
+                        <td class="col-md-1">工单状态</td>
+                        <td class="col-md-1">工单类型</td>
+                        <td class="col-md-1">派发时间</td>
+                        <td class="col-md-1">实际完成时间</td>
+                        <td class="col-md-1">要求完成时间</td>
+
+                    </tr>
+                    </thead>
+
+
+                    <tbody class="w-100">
+                    {% for x in returned2 %}
+                        <tr class="row mx-0">
+                            <!--工单编码
+                   sworkordercode，处理环节
+                   stachename，工单级别，工单处理结果
+                   sworkresult，收单人
+                   spartyname，回单人
+                   sdistillperson，工单状态
+                   sworkorderstatename，工单类型
+                   sworkordertypename，派发时间
+                   dcreatedate，实际完成时间
+                   dfinishdate，要求完成时间
+                   dlimitdate-->
+                            <td class="col-md-1">{{ x.sworkordercode.text }}</td>
+                            <td class="col-md-1">{{ x.stachename.text }}</td>
+                            <td class="col-md-3">{{ x.sworkresult.text }}</td>
+                            <td class="col-md-1">{{ x.spartyname.text }}</td>
+                            <td class="col-md-1">{{ x.sdistillperson.text }}</td>
+                            <td class="col-md-1">{{ x.sworkorderstatename.text }}</td>
+                            <td class="col-md-1">{{ x.sworkordertypename.text }}</td>
+                            <td class="col-md-1">{{ x.dcreatedate.text }}</td>
+                            <td class="col-md-1">{{ x.dfinishdate.text }}</td>
+                            <td class="col-md-1">{{ x.dlimitdate.text }}</td>
+
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading">资源信息</div>
+            <div class="panel-body">
+                <table class="table table-striped table-bordered table-condensed table-responsive">
+                    <tr>
+                        <td>资源信息：</td>
+                    </tr>
+                    <tr>
+                        <td>{{ returned3.sroute_text.text }}</td>
+                    </tr>
+                    <tr>
+                        <td>路由信息：</td>
+                    </tr>
+                    <tr>
+                        <td>{{ returned3.sroutetextfull.text }}</td>
+                    </tr>
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}
